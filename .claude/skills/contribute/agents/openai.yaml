@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Contribute'
+  short_description: 'Plan & prepare Apollo Server contributions'
+  default_prompt: 'Use $contribute to plan, review, or prepare an Apollo Server contribution.'

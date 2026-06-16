@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Scaffold'
+  short_description: 'Scaffold Apollo Server changes'
+  default_prompt: 'Use $scaffold to scaffold an Apollo Server package surface or deep import.'

@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Onboard'
+  short_description: 'Guided first Apollo Server contribution'
+  default_prompt: 'Use $onboard for a guided first contribution to Apollo Server.'

@@ -10,6 +10,29 @@ To run Typescript in watch mode, run `npm run watch`.
 
 If you have [Mise](https://mise.jdx.dev/) installed, your Node and NPM versions will be configured automatically for you.
 
+## Agent Skills
+
+This repo ships task-scoped skills that encode the contribution process, usable
+from [Claude Code](https://claude.com/claude-code), [Cursor](https://cursor.com)
+(which reads `.claude/skills` natively), and [Codex](https://openai.com/codex)
+(which reads `.agents/skills`). The canonical copies live under `.claude/skills`;
+`.agents/skills` is a symlink to it, so there is one source of truth and no
+drift. Each skill has one job and points to the next, so you invoke the one that
+matches where you are:
+
+- `$triage` - scope a raw bug report or feature idea into clear intent (a
+  reproduction for bugs, plugin-vs-core for features) before any code. Useful
+  for engineers, PMs, and QA.
+- `$contribute` - once scoped, plan the change, keep the PR focused, apply the
+  public-API/versioning policy, and check PR readiness.
+- `$scaffold` - for package-facing or build-sensitive changes (new exports,
+  deep imports, plugins, dual ESM/CJS layout).
+- `$onboard` - a guided end-to-end first contribution that walks setup and
+  delegates to the three skills above at the right steps.
+
+These are optional aids; `CONTRIBUTING.md` and this file remain the source of
+truth.
+
 ## Testing
 
 To run tests, run `npm test` (or `npm t` for short).
@@ -39,6 +62,8 @@ This repository is published using [https://github.com/changesets/changesets](ch
 A "changeset" (created by running `npx changeset`) is committed to source control for each PR in order to inform the tool what type of changes were made (patch, minor, major) with an accompanying description. A changeset is _required_ for any PR touching files under `packages` in order to pass status checks. If your PR has no effective changes to any packages, you can run `npx changeset --empty` to create an empty changeset.
 
 When at least one changeset exists, the workflow will open and update a release PR which consumes the changesets, updates package versions, and updates the CHANGELOG. When this PR is merged, the changes will be committed, the packages will be published, and a GitHub release will be created.
+
+> **Changeset reminder hook:** A project hook (`.claude/hooks/changeset-reminder.sh`) checks before each `git commit` whether your changes touch `packages` without a changeset, and prompts you to add one. It mirrors CI's `changeset-check` so the gap is caught locally, and an empty changeset satisfies it. The detection logic is shared; only the output format differs per agent, selected with `--format`. It is wired for [Claude Code](https://claude.com/claude-code) in `.claude/settings.json` (manage via the `/hooks` menu) and for [Cursor](https://cursor.com) in `.cursor/hooks.json`. The hook is optional tooling; remove the relevant wiring to disable it.
 
 ## Build System
 

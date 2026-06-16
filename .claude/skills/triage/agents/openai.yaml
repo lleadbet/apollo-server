@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Triage'
+  short_description: 'Triage Apollo Server bugs & features'
+  default_prompt: 'Use $triage to scope an Apollo Server bug report or feature idea.'

@@ -8,12 +8,17 @@ Oh, and if you haven't already, sign up for the [Apollo community forum](https:/
 
 Here are some ways to contribute to the project, from easiest to most difficult:
 
-* [Reporting bugs](#reporting-bugs)
-* [Improving the documentation](#improving-the-documentation)
-* [Responding to issues](#responding-to-issues)
-* [Small bug fixes](#small-bug-fixes)
-* [Suggesting features](#suggesting-features)
-* [Big pull requests](#big-prs)
+- [Apollo Contributor Guide](#apollo-contributor-guide)
+  - [Issues](#issues)
+    - [Reporting bugs](#reporting-bugs)
+    - [Improving the documentation](#improving-the-documentation)
+    - [Responding to issues](#responding-to-issues)
+    - [Small bug fixes](#small-bug-fixes)
+    - [Suggesting features](#suggesting-features)
+  - [Big PRs](#big-prs)
+    - [Code review guidelines](#code-review-guidelines)
+  - [Versioning and breaking changes](#versioning-and-breaking-changes)
+  - [New contributors](#new-contributors)
 
 ## Issues
 
@@ -80,6 +85,24 @@ It’s important that every piece of code in Apollo packages is reviewed by at l
 4.  **No unnecessary or unrelated changes.** PRs shouldn’t come with random formatting changes, especially in unrelated parts of the code. If there is some refactoring that needs to be done, it should be in a separate PR from a bug fix or feature, if possible.
 5.  **Code has appropriate comments.** Code should be commented, or written in a clear “self-documenting” way.
 6.  **Idiomatic use of the language.** In TypeScript, make sure the typings are specific and correct. In ES2015, make sure to use imports rather than require and const instead of var, etc. Use your common sense and follow the style of the surrounding code.
+
+## Versioning and breaking changes
+
+Apollo Server is a published library that follows [semantic versioning](https://semver.org/). Many projects depend on it, so compatibility is a primary concern, not an afterthought.
+
+Any public-facing exports, documentation, or similar are part of the external API contract. Changes to a TypeScript type signature can break consumers even when no runtime test fails, so type changes can be breaking as well.
+
+When making a change, map it deliberately to the changeset bump:
+
+* **Patch** - bug fixes and internal changes that keep the public API compatible.
+* **Minor** - additive, backwards-compatible changes (new APIs, new optional behavior).
+* **Major** - breaking changes to the external API.
+
+**Default to backwards-compatible changes.** Prefer additive APIs over breaking ones wherever a compatible design is reasonable. A breaking change is "Big PR" territory and requires issue discussion and consensus _before_ implementation (see [Big PRs](#big-prs)), and the PR should make the case explicitly:
+
+1.  **Rationale.** Why the change cannot be made in a backwards-compatible way.
+2.  **Migration path.** What consumers must do to adapt, ideally with before/after examples.
+3.  **Deprecation timeline.** Prefer to ship the new path first and deprecate the old one with a clear warning, removing it only in a future major release rather than all at once.
 
 ## New contributors
 
